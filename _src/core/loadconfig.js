@@ -1,3 +1,11 @@
+/*
+ * @Descripttion:
+ * @version:
+ * @Author: lihw02
+ * @Date: 2020-04-20 18:30:24
+ * @LastEditors: lihw02
+ * @LastEditTime: 2020-04-20 18:37:27
+ */
 (function(){
 
     UE.Editor.prototype.loadServerConfig = function(){
@@ -7,7 +15,8 @@
                 me.options.imageUrl && me.setOpt('serverUrl', me.options.imageUrl.replace(/^(.*[\/]).+([\.].+)$/, '$1controller$2'));
 
                 var configUrl = me.getActionUrl('config'),
-                    isJsonp = utils.isCrossDomainUrl(configUrl);
+                    // 2020-04-20 使用ajax请求
+                    isJsonp = false; //utils.isCrossDomainUrl(configUrl);
 
                 /* 发出ajax请求 */
                 me._serverConfigLoaded = false;
@@ -15,6 +24,7 @@
                 configUrl && UE.ajax.request(configUrl,{
                     'method': 'GET',
                     'dataType': isJsonp ? 'jsonp':'',
+                    'headers': me.options.headers,
                     'onsuccess':function(r){
                         try {
                             var config = isJsonp ? r:eval("("+r.responseText+")");

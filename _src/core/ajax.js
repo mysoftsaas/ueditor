@@ -98,6 +98,12 @@ UE.ajax = function() {
                 }
             }
         };
+        // 带上自定头
+        if (ajaxOpts.headers && Object.prototype.toString.apply(ajaxOpts.headers) === "[object Object]") {
+            for (var key in ajaxOpts.headers) {
+              xhr.setRequestHeader(key, ajaxOpts.headers[key])
+            }
+        }
         if (method == "POST") {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
             xhr.send(submitStr);
